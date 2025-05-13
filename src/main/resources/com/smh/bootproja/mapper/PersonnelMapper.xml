@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 接口开发方式：
+ 名称空间必须是对应接口的全限定名-->
+<mapper namespace="com.smh.bootproja.mapper.PersonnelMapper">
+    <parameterMap id="personnelMap" type="com.smh.bootproja.entity.Personnel">
+        <parameter property="name" javaType="String"/>
+        <parameter property="sex" javaType="String"/>
+        <parameter property="age" javaType="String"/>
+        <parameter property="phone" javaType="String"/>
+        <parameter property="deptId" javaType="Integer"/>
+        <parameter property="deptName" javaType="String"/>
+        <parameter property="personnelId" javaType="Integer"/>
+    </parameterMap>
+    <insert id="addPersonnel" parameterMap="personnelMap">
+        insert into personnel(personnelId,name,sex,age,phone) values(#{personnelId},#{name},#{sex},#{age},#{phone})
+    </insert>
+    <insert id="addDeptPer" parameterMap="personnelMap">
+        insert into deptper(deptId,personnelId) values(#{deptId},#{personnelId})
+    </insert>
+
+    <update id="modifyPersonnel" parameterMap="personnelMap">
+        update personnel set name=#{name},sex=#{sex},age=#{age} where personnelId=#{personnelId}
+    </update>
+    <update id="updateDeptPer">
+        update deptper set deptId=#{deptId} where personnelId=#{personnelId}
+    </update>
+    <delete id="removePersonnel" parameterMap="personnelMap">
+        delete from personnel where personnelId=#{personnelId}
+    </delete>
+    <delete id="removeDeptPer">
+        delete from deptper where personnelId=#{personnelId}
+    </delete>
+    <select id="getPersonnelList" resultType="com.smh.bootproja.entity.Personnel">
+        select p.*,d.deptName,d.deptId
+        from personnel p left join deptper dp on p.personnelId=dp.personnelId left join dept d on dp.deptId=d.deptId where 1 = 1
+        <if test="name!=null and name!=''">
+            and name LIKE concat('%',#{name},'%')
+        </if>
+    </select>
+</mapper>

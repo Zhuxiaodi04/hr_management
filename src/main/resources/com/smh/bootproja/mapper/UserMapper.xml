@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 接口开发方式：
+ 名称空间必须是对应接口的全限定名-->
+<mapper namespace="com.smh.bootproja.mapper.UserMapper">
+    <resultMap id="UserMap" type="com.smh.bootproja.entity.User">
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="account" property="account"/>
+    </resultMap>
+    <insert id="addUser" parameterType="com.smh.bootproja.entity.User">
+        insert into user(account,password,username) values(#{account},#{password},#{username})
+    </insert>
+    <select id="getUserByAccount" parameterType="com.smh.bootproja.entity.User"  resultType="com.smh.bootproja.entity.User">
+        select * from user where account=#{account}
+    </select>
+
+
+</mapper>
